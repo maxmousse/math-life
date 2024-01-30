@@ -1,0 +1,29 @@
+{
+  "name": "pwa-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/pwa-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/pwa-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "pwa:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "pwa:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "pwa:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["pwa"]
+}
