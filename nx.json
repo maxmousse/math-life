@@ -66,5 +66,6 @@
       "unitTestRunner": "jest"
     }
   },
-  "nxCloudAccessToken": "ZDk5MWE1ZGQtZjU3MC00YjJmLTk4MGEtY2IyYWJlODk1MDA4fHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "ZDk5MWE1ZGQtZjU3MC00YjJmLTk4MGEtY2IyYWJlODk1MDA4fHJlYWQtd3JpdGU=",
+  "plugins": ["@monodon/rust"]
 }

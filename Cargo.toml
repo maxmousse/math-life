@@ -1,0 +1,9 @@
+
+[workspace]
+resolver = '2'
+members = [
+	'./libs/life_game',
+]
+
+[profile.release]
+lto = true
