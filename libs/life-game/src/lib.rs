@@ -1,3 +1,9 @@
+use wasm_bindgen::prelude::*;
+#[wasm_bindgen]
+pub struct Tada {
+    pub tudu: u32,
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
