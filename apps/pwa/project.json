@@ -5,6 +5,7 @@
   "prefix": "ml",
   "sourceRoot": "apps/pwa/src",
   "tags": [],
+  "implicitDependencies": ["life-game"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
