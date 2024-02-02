@@ -2,6 +2,8 @@ use std::fmt;
 
 use wasm_bindgen::prelude::*;
 
+use crate::utils::{log, set_panic_hook};
+
 mod utils;
 
 #[wasm_bindgen]
@@ -14,15 +16,29 @@ pub enum Cell {
 
 #[wasm_bindgen]
 pub struct Universe {
+    tick_count: u32,
     width: u32,
     height: u32,
     cells: Vec<Cell>,
 }
 
+impl Cell {
+    pub fn toggle(&mut self) {
+        *self = match *self {
+            Cell::Alive => Cell::Dead,
+            Cell::Dead => Cell::Alive,
+        }
+    }
+}
+
 #[wasm_bindgen]
 impl Universe {
     pub fn new(width: u32, height: u32) -> Universe {
+        // Install panic hook
+        set_panic_hook();
+
         Universe {
+            tick_count: 0,
             width,
             height,
             cells: vec![Cell::Dead; (width * height) as usize],
@@ -49,6 +65,10 @@ impl Universe {
     }
 
     pub fn tick(&mut self) {
+        self.tick_count += 1;
+
+        log!("Current tick: {}", self.tick_count);
+
         let mut next_universe = self.cells.clone();
 
         for row in 0..self.height {
@@ -100,6 +120,11 @@ impl Universe {
             }
         }
         count
+    }
+
+    pub fn toggle_cell(&mut self, row: u32, column: u32) {
+        let idx = self.get_cell_index(row, column);
+        self.cells[idx].toggle();
     }
 
     pub fn width(&self) -> u32 {

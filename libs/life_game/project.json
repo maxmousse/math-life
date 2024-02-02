@@ -1,26 +1,26 @@
 {
-  "name": "life-game",
+  "name": "life_game",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "./libs/life-game/src",
+  "sourceRoot": "./libs/life_game/src",
   "targets": {
     "build": {
       "outputs": ["{options.output}"],
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx wasm-pack build libs/life-game --out-dir ../../dist/wasm/life-game --target bundler --dev --scope ml",
-          "npm i dist/wasm/life-game"
+          "npx wasm-pack build libs/life_game --out-dir ../../dist/wasm/life_game --target bundler --dev --scope ml",
+          "npm i dist/wasm/life_game"
         ],
         "parallel": false,
-        "output": "dist/wasm/life-game"
+        "output": "dist/wasm/life_game"
       }
     },
     "test": {
       "executor": "@monodon/rust:test",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/life-game"
+        "target-dir": "dist/target/life_game"
       },
       "configurations": {
         "production": {
@@ -32,7 +32,7 @@
       "executor": "@monodon/rust:lint",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/life-game"
+        "target-dir": "dist/target/life_game"
       }
     }
   },

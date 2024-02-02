@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LifeGameComponent } from './life-game.component';
+import { LifeGameFormComponent } from './life-game-form.component';
 
-describe('LifeGameComponent', () => {
-  let component: LifeGameComponent;
-  let fixture: ComponentFixture<LifeGameComponent>;
+describe('LifeGameFormComponent', () => {
+  let component: LifeGameFormComponent;
+  let fixture: ComponentFixture<LifeGameFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LifeGameComponent],
+      imports: [LifeGameFormComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LifeGameComponent);
+    fixture = TestBed.createComponent(LifeGameFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

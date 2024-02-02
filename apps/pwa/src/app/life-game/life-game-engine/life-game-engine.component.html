@@ -1,0 +1,17 @@
+<div>
+  <div>
+    <ml-life-game-form
+      defaultPlayMode="pause"
+      [defaultSpeed]="100"
+      (playModeChange)="updatePlayMode($event)"
+      (next)="next()"
+    ></ml-life-game-form>
+  </div>
+  <div>
+    <canvas
+      #canvas
+      (click)="toggleCell($event)"
+      [ngClass]="{ drawable: isPause() }"
+    ></canvas>
+  </div>
+</div>

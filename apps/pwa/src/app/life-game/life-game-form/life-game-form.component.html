@@ -1,0 +1,22 @@
+<mat-button-toggle-group
+  [formControl]="playModeControl"
+  (ngModelChange)="playModeChange.emit($event)"
+>
+  <mat-button-toggle value="play"
+    ><mat-icon fontIcon="play_arrow"></mat-icon
+  ></mat-button-toggle>
+  <mat-button-toggle value="pause"
+    ><mat-icon fontIcon="pause"></mat-icon
+  ></mat-button-toggle>
+</mat-button-toggle-group>
+<button
+  mat-button
+  [disabled]="playModeControl.value === 'play'"
+  (click)="next.emit()"
+>
+  Next
+</button>
+<mat-form-field>
+  <mat-label>Speed</mat-label>
+  <input matInput [formControl]="speedControl" type="number" />
+</mat-form-field>

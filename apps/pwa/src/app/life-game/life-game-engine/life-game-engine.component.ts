@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Cell, Universe } from '@ml/life-game';
-import { memory } from '@ml/life-game/life_game_bg.wasm';
+import { Cell, Universe } from '@ml/life_game';
+import { memory } from '@ml/life_game/life_game_bg.wasm';
 import { Subject } from 'rxjs';
+import { LifeGameFormComponent } from '../life-game-form/life-game-form.component';
+import { LifeGamePlayMode } from '../life-game.types';
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = '#CCCCCC';
@@ -10,16 +12,17 @@ const DEAD_COLOR = '#FFFFFF';
 const ALIVE_COLOR = '#000000';
 
 @Component({
-  selector: 'ml-life-game',
+  selector: 'ml-life-game-engine',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './life-game.component.html',
-  styleUrl: './life-game.component.css',
+  templateUrl: './life-game-engine.component.html',
+  styleUrl: './life-game-engine.component.css',
+  imports: [CommonModule, LifeGameFormComponent],
 })
-export class LifeGameComponent implements AfterViewInit {
+export class LifeGameEngineComponent implements AfterViewInit {
   @ViewChild('canvas')
   canvas!: ElementRef<HTMLCanvasElement>;
   canvasContext!: CanvasRenderingContext2D;
+  animationFrameId?: number;
 
   width = 150;
   height = 150;
@@ -35,17 +38,78 @@ export class LifeGameComponent implements AfterViewInit {
       this.errorSubject.next('Can not get canvas context');
     }
 
-    const renderLoop = () => {
-      this.universe.tick();
-      this.renderUniverse(this.universe, this.canvasContext);
-
-      requestAnimationFrame(renderLoop);
-    };
-
-    // Main render loop
     this.universe.init();
+    this.renderUniverse(this.universe, this.canvasContext);
+  }
+
+  play() {
     this.universe.tick();
-    requestAnimationFrame(renderLoop);
+    this.renderUniverse(this.universe, this.canvasContext);
+
+    this.animationFrameId = requestAnimationFrame(this.play.bind(this));
+  }
+
+  pause() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = undefined;
+    }
+  }
+
+  next() {
+    this.universe.tick();
+    this.renderUniverse(this.universe, this.canvasContext);
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    this.animationFrameId = requestAnimationFrame(() => {});
+  }
+
+  updatePlayMode(playMode: LifeGamePlayMode) {
+    console.log(`playMode: ${playMode}`);
+    switch (playMode) {
+      case 'play':
+        this.play();
+        break;
+      case 'pause':
+        this.pause();
+        break;
+    }
+  }
+
+  toggleCell(event: MouseEvent) {
+    // Ignore canvas interaction while in play mode
+    if (this.isPlay()) return;
+
+    // Else, toggle the clicked cells
+    const canvas = this.canvas.nativeElement;
+    const boundingRect = canvas.getBoundingClientRect();
+
+    const scaleX = canvas.width / boundingRect.width;
+    const scaleY = canvas.height / boundingRect.height;
+
+    const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+    const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+    const row = Math.min(
+      Math.floor(canvasTop / (CELL_SIZE + 1)),
+      this.height - 1
+    );
+    const col = Math.min(
+      Math.floor(canvasLeft / (CELL_SIZE + 1)),
+      this.width - 1
+    );
+
+    this.universe.toggle_cell(row, col);
+
+    this.renderUniverse(this.universe, this.canvasContext);
+  }
+
+  isPause() {
+    return this.animationFrameId === undefined;
+  }
+
+  isPlay() {
+    return this.animationFrameId !== undefined;
   }
 
   initCanvasContext(canvas: HTMLCanvasElement) {

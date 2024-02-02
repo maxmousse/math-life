@@ -2,7 +2,7 @@
 [workspace]
 resolver = '2'
 members = [
-	'./libs/life-game',
+	'./libs/life_game',
 ]
 
 [profile.release]
