@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NxWelcomeComponent } from './nx-welcome.component';
-import { Tada } from '@ml/life-game';
 
 @Component({
   standalone: true,
@@ -11,6 +10,5 @@ import { Tada } from '@ml/life-game';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  test!: Tada;
   title = 'pwa';
 }

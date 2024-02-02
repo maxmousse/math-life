@@ -5,19 +5,31 @@
   "prefix": "ml",
   "sourceRoot": "apps/pwa/src",
   "tags": [],
-  "implicitDependencies": ["life-game"],
+  "implicitDependencies": [
+    "life-game"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/pwa",
         "index": "apps/pwa/src/index.html",
         "browser": "apps/pwa/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/pwa/tsconfig.app.json",
-        "assets": ["apps/pwa/src/favicon.ico", "apps/pwa/src/assets"],
-        "styles": ["apps/pwa/src/styles.css"],
+        "assets": [
+          "apps/pwa/src/favicon.ico",
+          "apps/pwa/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/indigo-pink.css",
+          "apps/pwa/src/styles.css"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -67,7 +79,9 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/pwa/jest.config.ts"
       }
