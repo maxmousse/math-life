@@ -8,7 +8,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { Cell, Universe } from '@ml/life_game';
 import { memory } from '@ml/life_game/life_game_bg.wasm';
-import { Subject } from 'rxjs';
 import { LifeGameControlFormComponent } from '../life-game-control-form/life-game-control-form.component';
 import { LifeGamePlayMode } from '../life-game.types';
 
@@ -37,20 +36,26 @@ export class LifeGameEngineComponent implements AfterViewInit {
 
   universe = Universe.new(this.width, this.height);
 
-  errorSubject = new Subject<string>();
-
   ngAfterViewInit(): void {
+    // Get canvas and canvas context
     const canvasContext = this.initCanvasContext(this.canvas.nativeElement);
     if (canvasContext !== null) {
       this.canvasContext = canvasContext;
     } else {
-      this.errorSubject.next('Can not get canvas context');
+      throw new Error('Can not get canvas context');
     }
 
+    // Init universe and make a first render
     this.universe.init();
     this.renderUniverse(this.universe, this.canvasContext);
   }
 
+  /**
+   * Set the game to 'play' mode
+   *
+   * It is done by starting a loop with requestAnimationFrame, and
+   * ticking the universe at each iteration
+   */
   play() {
     this.universe.tick();
     this.renderUniverse(this.universe, this.canvasContext);
@@ -58,6 +63,9 @@ export class LifeGameEngineComponent implements AfterViewInit {
     this.animationFrameId = requestAnimationFrame(this.play.bind(this));
   }
 
+  /**
+   * Set the game to 'pause' mode
+   */
   pause() {
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
@@ -65,6 +73,9 @@ export class LifeGameEngineComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Play only one tick of the universe and render it
+   */
   next() {
     this.universe.tick();
     this.renderUniverse(this.universe, this.canvasContext);
@@ -73,6 +84,11 @@ export class LifeGameEngineComponent implements AfterViewInit {
     this.animationFrameId = requestAnimationFrame(() => {});
   }
 
+  /**
+   * Set the game to the updated play mode
+   *
+   * @param playMode - the play mode selected by the user
+   */
   updatePlayMode(playMode: LifeGamePlayMode) {
     switch (playMode) {
       case 'play':
@@ -84,6 +100,12 @@ export class LifeGameEngineComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Toggle the state of the cell clicked by the user
+   * (only if the game is not in play mode)
+   *
+   * @param event - Mouse event that contains the click coordinates
+   */
   toggleCell(event: MouseEvent) {
     // Ignore canvas interaction while in play mode
     if (this.isPlay()) return;
@@ -112,14 +134,27 @@ export class LifeGameEngineComponent implements AfterViewInit {
     this.renderUniverse(this.universe, this.canvasContext);
   }
 
+  /**
+   * Denote if the game is in 'pause' mode
+   */
   isPause() {
     return this.animationFrameId === undefined;
   }
 
+  /**
+   * Denote if the game is in 'play' mode
+   */
   isPlay() {
     return this.animationFrameId !== undefined;
   }
 
+  /**
+   * Set the size of the canvas to the game size and
+   * get a 2d context
+   *
+   * @param canvas - the canvas to initiate
+   * @returns a ref to the canvas context
+   */
   initCanvasContext(canvas: HTMLCanvasElement) {
     canvas.height = (CELL_SIZE + 1) * this.height + 1;
     canvas.width = (CELL_SIZE + 1) * this.width + 1;

@@ -2,10 +2,11 @@ use std::fmt;
 
 use wasm_bindgen::prelude::*;
 
-use crate::utils::{log, set_panic_hook};
+use utils::{log, set_panic_hook};
 
 mod utils;
 
+/// Represents a Cell of the game of life universe
 #[wasm_bindgen]
 #[repr(u8)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -14,6 +15,7 @@ pub enum Cell {
     Alive = 1,
 }
 
+/// Represents the universe of a game of life
 #[wasm_bindgen]
 pub struct Universe {
     tick_count: u32,
@@ -23,6 +25,7 @@ pub struct Universe {
 }
 
 impl Cell {
+    /// Toggle the state of a cell instance
     pub fn toggle(&mut self) {
         *self = match *self {
             Cell::Alive => Cell::Dead,
@@ -33,6 +36,7 @@ impl Cell {
 
 #[wasm_bindgen]
 impl Universe {
+    /// Instantiate a new empty universe
     pub fn new(width: u32, height: u32) -> Universe {
         // Install panic hook
         set_panic_hook();
@@ -64,6 +68,8 @@ impl Universe {
         self.to_string()
     }
 
+    /// Move the universe to its next state by
+    /// calculating the next generation of cells
     pub fn tick(&mut self) {
         self.tick_count += 1;
 
@@ -122,6 +128,7 @@ impl Universe {
         count
     }
 
+    /// Toggle the state of a cell in the universe
     pub fn toggle_cell(&mut self, row: u32, column: u32) {
         let idx = self.get_cell_index(row, column);
         self.cells[idx].toggle();
