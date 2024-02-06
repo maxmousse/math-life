@@ -66,6 +66,6 @@
       "unitTestRunner": "jest"
     }
   },
-  "nxCloudAccessToken": "ZDk5MWE1ZGQtZjU3MC00YjJmLTk4MGEtY2IyYWJlODk1MDA4fHJlYWQtd3JpdGU=",
+  "neverConnectToCloud": true,
   "plugins": ["@monodon/rust"]
 }
