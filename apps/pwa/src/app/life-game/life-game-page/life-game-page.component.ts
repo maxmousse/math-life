@@ -14,6 +14,10 @@ import { LifeGameConfig } from '../life-game.types';
 })
 export class LifeGamePageComponent {
   gameConfigUpdateSubject = new Subject<LifeGameConfig>();
+
+  // Game config state
+  // On game config update, the state is transitively set
+  // to `null` to blink the game engine to a fresh state
   gameConfig$ = merge(
     of({ width: 100, height: 100 }),
     this.gameConfigUpdateSubject
