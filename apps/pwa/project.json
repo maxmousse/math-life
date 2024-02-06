@@ -5,19 +5,22 @@
   "prefix": "ml",
   "sourceRoot": "apps/pwa/src",
   "tags": [],
-  "implicitDependencies": ["life-game"],
+  "implicitDependencies": ["life_game"],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/pwa",
         "index": "apps/pwa/src/index.html",
-        "browser": "apps/pwa/src/main.ts",
+        "main": "apps/pwa/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/pwa/tsconfig.app.json",
         "assets": ["apps/pwa/src/favicon.ico", "apps/pwa/src/assets"],
-        "styles": ["apps/pwa/src/styles.css"],
+        "styles": [
+          "@angular/material/prebuilt-themes/indigo-pink.css",
+          "apps/pwa/src/styles.css"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -37,9 +40,12 @@
           "outputHashing": "all"
         },
         "development": {
+          "buildOptimizer": false,
           "optimization": false,
+          "vendorChunk": true,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "namedChunks": true
         }
       },
       "defaultConfiguration": "production"
@@ -75,8 +81,7 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "pwa:build",
-        "staticFilePath": "dist/apps/pwa/browser"
+        "buildTarget": "pwa:build"
       }
     }
   }

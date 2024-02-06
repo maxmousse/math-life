@@ -34,12 +34,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "life-game"
+name = "life_game"
 version = "0.1.0"
 dependencies = [
  "console_error_panic_hook",
  "wasm-bindgen",
  "wasm-bindgen-test",
+ "web-sys",
 ]
 
 [[package]]

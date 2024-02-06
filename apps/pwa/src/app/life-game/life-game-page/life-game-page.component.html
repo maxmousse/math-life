@@ -1,0 +1,11 @@
+<ml-life-game-config-form
+  (update)="gameConfigUpdateSubject.next($event)"
+></ml-life-game-config-form>
+
+@if(gameConfig$ | async; as gameConfig) {
+<ml-life-game-engine
+  [width]="gameConfig.width"
+  [height]="gameConfig.height"
+></ml-life-game-engine>
+
+}
