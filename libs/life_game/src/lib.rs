@@ -78,7 +78,7 @@ impl Universe {
                 let alive_neighbors = self.count_alive_neighbors_of_cell(row, column);
 
                 let next_cell = match (current_cell, alive_neighbors) {
-                    (Cell::Alive, x) if x < 2 || x > 3 => Cell::Dead,
+                    (Cell::Alive, x) if !(2..=3).contains(&x) => Cell::Dead,
                     (Cell::Dead, 3) => Cell::Alive,
                     (no_change, _) => no_change,
                 };
@@ -164,7 +164,7 @@ impl fmt::Display for Universe {
                 let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
                 write!(f, "{}", symbol)?;
             }
-            write!(f, "\n")?;
+            writeln!(f)?;
         }
 
         Ok(())
