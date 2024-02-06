@@ -1,9 +1,15 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Cell, Universe } from '@ml/life_game';
 import { memory } from '@ml/life_game/life_game_bg.wasm';
 import { Subject } from 'rxjs';
-import { LifeGameFormComponent } from '../life-game-form/life-game-form.component';
+import { LifeGameControlFormComponent } from '../life-game-control-form/life-game-control-form.component';
 import { LifeGamePlayMode } from '../life-game.types';
 
 const CELL_SIZE = 5; // px
@@ -16,16 +22,19 @@ const ALIVE_COLOR = '#000000';
   standalone: true,
   templateUrl: './life-game-engine.component.html',
   styleUrl: './life-game-engine.component.css',
-  imports: [CommonModule, LifeGameFormComponent],
+  imports: [CommonModule, LifeGameControlFormComponent],
 })
 export class LifeGameEngineComponent implements AfterViewInit {
+  @Input()
+  width = 100;
+  @Input()
+  height = 100;
+
   @ViewChild('canvas')
   canvas!: ElementRef<HTMLCanvasElement>;
   canvasContext!: CanvasRenderingContext2D;
   animationFrameId?: number;
 
-  width = 150;
-  height = 150;
   universe = Universe.new(this.width, this.height);
 
   errorSubject = new Subject<string>();
@@ -65,7 +74,6 @@ export class LifeGameEngineComponent implements AfterViewInit {
   }
 
   updatePlayMode(playMode: LifeGamePlayMode) {
-    console.log(`playMode: ${playMode}`);
     switch (playMode) {
       case 'play':
         this.play();

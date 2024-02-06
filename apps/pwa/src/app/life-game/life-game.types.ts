@@ -4,8 +4,7 @@ export interface LifeGameControl {
   playMode: LifeGamePlayMode;
 }
 
-export interface LifeGameInitialState {
+export interface LifeGameConfig {
   width: number;
-  heigh: number;
-  initState: [number, number][];
+  height: number;
 }

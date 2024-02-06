@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LifeGameFormComponent } from './life-game-form.component';
+import { LifeGameFormComponent } from './life-game-control-form.component';
 
 describe('LifeGameFormComponent', () => {
   let component: LifeGameFormComponent;

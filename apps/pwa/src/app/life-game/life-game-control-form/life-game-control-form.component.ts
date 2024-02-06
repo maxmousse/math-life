@@ -9,7 +9,7 @@ import { LifeGamePlayMode } from '../life-game.types';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
-  selector: 'ml-life-game-form',
+  selector: 'ml-life-game-control-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,10 +22,10 @@ import { MatIcon } from '@angular/material/icon';
     MatLabel,
     MatIcon,
   ],
-  templateUrl: './life-game-form.component.html',
-  styleUrl: './life-game-form.component.css',
+  templateUrl: './life-game-control-form.component.html',
+  styleUrl: './life-game-control-form.component.css',
 })
-export class LifeGameFormComponent {
+export class LifeGameControlFormComponent {
   @Input()
   defaultPlayMode: LifeGamePlayMode = 'pause';
   @Input()
