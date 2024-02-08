@@ -3,6 +3,7 @@
 resolver = '2'
 members = [
 	'./libs/life_game',
+	'./libs/lenia',
 ]
 
 [profile.release]
