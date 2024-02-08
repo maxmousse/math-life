@@ -2,11 +2,11 @@
   <div>
     <ml-life-game-control-form
       defaultPlayMode="pause"
-      [defaultSpeed]="100"
       (playModeChange)="updatePlayMode($event)"
       (next)="next()"
     ></ml-life-game-control-form>
   </div>
+  <div>FPS: {{ fps || 0 }}</div>
   <div>
     <canvas
       #canvas

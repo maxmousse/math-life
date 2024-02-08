@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (submit)="submit()">
   <mat-form-field>
     <mat-label>Width</mat-label>
     <input matInput formControlName="width" type="number" />
@@ -7,5 +7,13 @@
     <mat-label>Height</mat-label>
     <input matInput formControlName="height" type="number" />
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Pattern</mat-label>
+    <mat-select formControlName="pattern">
+      @for (pattern of patterns; track pattern) {
+      <mat-option [value]="pattern.pattern">{{ pattern.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <button mat-button type="submit">Apply</button>
 </form>
-<button mat-button (click)="submit()">Reset</button>

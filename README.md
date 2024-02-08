@@ -22,9 +22,6 @@ After cloning the repository and moving at the root of the folder, you can:
 
 For the Conway's game of life
 
-- Add a selector to choose an interesting initial state
-- Implement the speed cursor to control the game speed
-- Add a fps counter
 - Update the game implementation and rendering to use diff between each tick
 - Try to render the game with webGL
 
