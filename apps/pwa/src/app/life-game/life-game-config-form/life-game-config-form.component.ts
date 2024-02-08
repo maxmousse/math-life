@@ -4,7 +4,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { LifeGameConfig } from '../life-game.types';
+import { lifeGamePatterns } from '../life-game-patterns';
 
 @Component({
   selector: 'ml-life-game-config-form',
@@ -15,6 +17,7 @@ import { LifeGameConfig } from '../life-game.types';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
   ],
   templateUrl: './life-game-config-form.component.html',
   styleUrl: './life-game-config-form.component.css',
@@ -28,6 +31,8 @@ export class LifeGameConfigFormComponent {
   @Output()
   update = new EventEmitter<LifeGameConfig>();
 
+  patterns = lifeGamePatterns;
+
   form = new FormGroup({
     width: new FormControl(this.defaultWidth, {
       nonNullable: true,
@@ -35,6 +40,7 @@ export class LifeGameConfigFormComponent {
     height: new FormControl(this.defaultHeight, {
       nonNullable: true,
     }),
+    pattern: new FormControl<string>('', { nonNullable: true }),
   });
 
   submit() {

@@ -50,16 +50,10 @@ impl Universe {
     }
 
     /// Init universe with an interesting template
-    pub fn init(&mut self) {
-        self.cells = (0..self.width * self.height)
-            .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
-                    Cell::Alive
-                } else {
-                    Cell::Dead
-                }
-            })
-            .collect();
+    pub fn init(&mut self, string_representation: String) {
+        parse_string_representation(string_representation)
+            .into_iter()
+            .for_each(|(x, y)| self.toggle_cell(x, y));
     }
 
     /// Basic version of rendering where
@@ -175,5 +169,51 @@ impl fmt::Display for Universe {
         }
 
         Ok(())
+    }
+}
+
+fn parse_string_representation(input: String) -> Vec<(u32, u32)> {
+    let mut x = 0;
+    let mut y = 0;
+
+    input
+        .lines()
+        .map(|line| line.trim())
+        .filter(|line| !line.starts_with('!'))
+        .fold(Vec::new(), |mut result, line| {
+            for c in line.chars() {
+                match c {
+                    '.' => {}
+                    'O' => result.push((x, y)),
+                    _ => panic!("Invalid string representation"),
+                }
+                x += 1;
+            }
+            x = 0;
+            y += 1;
+            result
+        })
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test_parse_string_representation() {
+        let glider = "!Name: Glider
+        !Author: Richard K. Guy
+        !The smallest, most common, and first discovered spaceship.
+        !www.conwaylife.com/wiki/index.php?title=Glider
+        .O
+        ..O
+        OOO"
+        .to_string();
+
+        assert_eq!(
+            parse_string_representation(glider),
+            vec![(1, 0), (2, 1), (0, 2), (1, 2), (2, 2)]
+        );
+        assert_eq!(parse_string_representation("".to_string()), vec![]);
     }
 }

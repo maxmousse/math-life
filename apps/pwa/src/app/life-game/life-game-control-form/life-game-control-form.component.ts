@@ -28,18 +28,13 @@ import { MatIcon } from '@angular/material/icon';
 export class LifeGameControlFormComponent {
   @Input()
   defaultPlayMode: LifeGamePlayMode = 'pause';
-  @Input()
-  defaultSpeed = 100;
 
   @Output()
   playModeChange = new EventEmitter<LifeGamePlayMode>();
-  @Output()
-  speedChange = new EventEmitter();
   @Output()
   next = new EventEmitter<void>();
 
   playModeControl = new FormControl<LifeGamePlayMode>(this.defaultPlayMode, {
     updateOn: 'change',
   });
-  speedControl = new FormControl(this.defaultSpeed);
 }

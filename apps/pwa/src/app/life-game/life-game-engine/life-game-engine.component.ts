@@ -25,20 +25,25 @@ const ALIVE_COLOR = '#000000';
 })
 export class LifeGameEngineComponent implements AfterViewInit {
   @Input()
-  width = 100;
+  width!: number;
   @Input()
-  height = 100;
+  height!: number;
+  @Input()
+  pattern!: string;
 
   @ViewChild('canvas')
   canvas!: ElementRef<HTMLCanvasElement>;
   canvasContext!: CanvasRenderingContext2D;
   animationFrameId?: number;
+  lastFrameTimestamp?: number;
+  fps?: number;
 
-  universe = Universe.new(this.width, this.height);
+  universe!: Universe;
 
   ngAfterViewInit(): void {
     // Get canvas and canvas context
     const canvasContext = this.initCanvasContext(this.canvas.nativeElement);
+
     if (canvasContext !== null) {
       this.canvasContext = canvasContext;
     } else {
@@ -46,7 +51,8 @@ export class LifeGameEngineComponent implements AfterViewInit {
     }
 
     // Init universe and make a first render
-    this.universe.init();
+    this.universe = Universe.new(this.width, this.height);
+    this.universe.init(this.pattern);
     this.renderUniverse(this.universe, this.canvasContext);
   }
 
@@ -162,6 +168,14 @@ export class LifeGameEngineComponent implements AfterViewInit {
   }
 
   renderUniverse(universe: Universe, canvasContext: CanvasRenderingContext2D) {
+    // FPS calculation
+    const now = performance.now();
+    this.fps = this.lastFrameTimestamp
+      ? (1 / (now - this.lastFrameTimestamp)) * 1000
+      : undefined;
+    this.lastFrameTimestamp = now;
+
+    // Rendering
     this.renderGrid(universe, canvasContext);
     this.renderCells(universe, canvasContext);
   }
