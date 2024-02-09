@@ -1,3 +1,5 @@
+pub mod convolution;
+pub mod function;
 pub mod matrix;
 
 #[cfg(test)]
