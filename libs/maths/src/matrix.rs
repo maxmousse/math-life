@@ -1,12 +1,14 @@
+use std::ops::{Add, AddAssign, Sub};
+
 /// Simple 2 dimensions matrix struct
 #[derive(Debug, PartialEq)]
-pub struct Matrix<T: Copy> {
-    width: usize,
-    height: usize,
-    m: Vec<Vec<T>>,
+pub struct Matrix<T: Copy + Add + Sub<Output = T>> {
+    pub width: usize,
+    pub height: usize,
+    pub m: Vec<Vec<T>>,
 }
 
-impl<T: Copy> Matrix<T> {
+impl<T: Copy + Add + AddAssign + Sub<Output = T>> Matrix<T> {
     /// Instantiate a matrix of size `width` * `height` filled with the
     /// specified constant value
     pub fn from_constant(width: usize, height: usize, constant: T) -> Self {
@@ -70,6 +72,16 @@ impl<T: Copy> Matrix<T> {
             .iter_mut()
             .for_each(|row| row.iter_mut().for_each(|val| *val = f(val)));
     }
+
+    // Sum all the matrix cells
+    pub fn sum(&self) -> T {
+        let init = self.m[0][0];
+        let result = self.m.iter().fold(init, |mut sum, row| {
+            row.iter().for_each(|val| sum += *val);
+            sum
+        });
+        result - init
+    }
 }
 
 #[cfg(test)]
@@ -79,26 +91,18 @@ mod test {
     #[test]
     fn test_from_constant() {
         let size = 3;
-        let expected_result = vec![
-            vec![true, true, true],
-            vec![true, true, true],
-            vec![true, true, true],
-        ];
+        let expected_result = vec![vec![1, 1, 1], vec![1, 1, 1], vec![1, 1, 1]];
 
-        assert_eq!(Matrix::from_constant(size, size, true).m, expected_result);
+        assert_eq!(Matrix::from_constant(size, size, 1).m, expected_result);
     }
 
     #[test]
     fn test_from_function() {
         let size = 3;
-        let expected_result = vec![
-            vec![(0, 0), (1, 0), (2, 0)],
-            vec![(0, 1), (1, 1), (2, 1)],
-            vec![(0, 2), (1, 2), (2, 2)],
-        ];
+        let expected_result = vec![vec![0, 1, 2], vec![1, 2, 3], vec![2, 3, 4]];
 
         assert_eq!(
-            Matrix::from_function(size, size, |x, y| (x, y)).m,
+            Matrix::from_function(size, size, |x, y| x + y).m,
             expected_result
         );
     }
