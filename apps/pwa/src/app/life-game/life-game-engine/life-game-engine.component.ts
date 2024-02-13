@@ -198,7 +198,7 @@ export class LifeGameEngineComponent implements AfterViewInit {
 
     // Horizontal lines.
     for (let j = 0; j <= height; j++) {
-      canvasContext.moveTo(0, j * (CELL_SIZE + 1) + 1);
+      canvasContext.moveTo(0.0, j * (CELL_SIZE + 1) + 1);
       canvasContext.lineTo(
         (CELL_SIZE + 1) * width + 1,
         j * (CELL_SIZE + 1) + 1

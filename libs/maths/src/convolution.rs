@@ -1,32 +1,27 @@
 use crate::{
-    coordinate::{toroidal_translation, Coordinate},
+    coordinate::{toroidal_translation, vector, Coordinate},
     function::{distance, normal_gauss},
     matrix::Matrix,
 };
 
-// pub fn toroidal_convolute(matrix: &Matrix<f64>, kernel: &Matrix<f64>) -> Matrix<f64> {
-//     // TODO: check that kernel is smaller than matrix
-//     let mut result = Matrix::from_constant(matrix.width, matrix.height, 0.0);
-//
-//     // Iterate through the matrix
-//     for (m_y, m_row) in matrix.m.iter().enumerate() {
-//         for (m_x, m_val) in m_row.iter().enumerate() {
-//             // For each matrix cell, convolute
-//             result.m[m_y][m_x] = convolute_one((m_x, m_y), matrix, kernel);
-//         }
-//     }
-//
-//     result
-// }
-
 pub fn convolute(point: &Coordinate, matrix: &Matrix<f64>, kernel: &Matrix<f64>) -> f64 {
+    let k_center = kernel.height / 2;
+
     kernel
         .iter()
         .enumerate()
+        // Get current kernel cell coordinates
         .map(|(k_index, k_val)| (kernel.index_to_coordinate(k_index), k_val))
-        .fold(0.0, |result, (k_coordinate, k_coef)| {
+        // Get the vector from kernel center to current kernel cell
+        .map(|(k_coordinate, k_val)| {
+            (
+                vector(&Coordinate(k_center, k_center), &k_coordinate),
+                k_val,
+            )
+        })
+        .fold(0.0, |result, (k_vector, k_coef)| {
             let neighbor_coordinates =
-                toroidal_translation(point, &k_coordinate, &matrix.width, &matrix.height);
+                toroidal_translation(point, &k_vector, &matrix.width, &matrix.height);
 
             result + k_coef * matrix.get_by_coordinate(&neighbor_coordinates)
         })
@@ -72,6 +67,16 @@ pub fn distance_kernel(radius: usize) -> Matrix<f64> {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    fn test_convolute() {
+        let matrix =
+            Matrix::from_vec(vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0], 3, 3).unwrap();
+        let kernel =
+            Matrix::from_vec(vec![1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0], 3, 3).unwrap();
+
+        assert_eq!(convolute(&Coordinate(1, 1), &matrix, &kernel), 25.0);
+    }
 
     #[test]
     fn test_distance_kernel() {

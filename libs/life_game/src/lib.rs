@@ -104,7 +104,7 @@ impl Universe {
         // the target cell to select the neighbor cells
         //       -1      0      1
         // -1   -1,-1   -1,0   -1,1
-        // 0    0,-1    0,0    0,1
+        // 0    0.0,-1    0.0,0    0.0,1
         // 1    1,-1    1,0    1,1
         // Modulo are used to avoid using if to handle edges of the universe
         for delta_row in [self.height - 1, 0, 1].iter().cloned() {

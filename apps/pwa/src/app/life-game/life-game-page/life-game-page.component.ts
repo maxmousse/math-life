@@ -19,7 +19,7 @@ export class LifeGamePageComponent {
   // On game config update, the state is transitively set
   // to `null` to blink the game engine to a fresh state
   gameConfig$ = merge(
-    of({ width: 100, height: 100, pattern: '' }),
+    of({ width: 100.0, height: 100.0, pattern: '' }),
     this.gameConfigUpdateSubject
       .asObservable()
       .pipe(switchMap((config) => from([null, config])))

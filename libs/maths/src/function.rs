@@ -1,5 +1,5 @@
-pub fn gauss(x: f64, height: f64, mean: f64, standard_deviation: f64) -> f64 {
-    height * (-((x - mean) / standard_deviation).powi(2) / 2.0).exp()
+pub fn gauss(x: f64, amplitude: f64, mean: f64, standard_deviation: f64) -> f64 {
+    amplitude * (-((x - mean) / standard_deviation).powi(2) / 2.0).exp()
 }
 
 pub fn normal_gauss(x: f64, mean: f64, standard_deviation: f64) -> f64 {
