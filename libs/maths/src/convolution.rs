@@ -1,35 +1,35 @@
 use crate::{
-    function::{distance, normal_gauss, toroidal_point_translation},
+    coordinate::{toroidal_translation, Coordinate},
+    function::{distance, normal_gauss},
     matrix::Matrix,
 };
 
-pub fn toroidal_convolute(matrix: &Matrix<f64>, kernel: &Matrix<f64>) -> Matrix<f64> {
-    // TODO: check that kernel is smaller than matrix
-    let mut result = Matrix::from_constant(matrix.width, matrix.height, 0.0);
+// pub fn toroidal_convolute(matrix: &Matrix<f64>, kernel: &Matrix<f64>) -> Matrix<f64> {
+//     // TODO: check that kernel is smaller than matrix
+//     let mut result = Matrix::from_constant(matrix.width, matrix.height, 0.0);
+//
+//     // Iterate through the matrix
+//     for (m_y, m_row) in matrix.m.iter().enumerate() {
+//         for (m_x, m_val) in m_row.iter().enumerate() {
+//             // For each matrix cell, convolute
+//             result.m[m_y][m_x] = convolute_one((m_x, m_y), matrix, kernel);
+//         }
+//     }
+//
+//     result
+// }
 
-    // Iterate through the matrix
-    for (m_y, m_row) in matrix.m.iter().enumerate() {
-        for (m_x, m_val) in m_row.iter().enumerate() {
-            // For each matrix cell, convolute
-            result.m[m_y][m_x] = convolute_one((m_x, m_y), matrix, kernel);
-        }
-    }
+pub fn convolute(point: &Coordinate, matrix: &Matrix<f64>, kernel: &Matrix<f64>) -> f64 {
+    kernel
+        .iter()
+        .enumerate()
+        .map(|(k_index, k_val)| (kernel.index_to_coordinate(k_index), k_val))
+        .fold(0.0, |result, (k_coordinate, k_coef)| {
+            let neighbor_coordinates =
+                toroidal_translation(point, &k_coordinate, &matrix.width, &matrix.height);
 
-    result
-}
-
-fn convolute_one(point: (usize, usize), matrix: &Matrix<f64>, kernel: &Matrix<f64>) -> f64 {
-    let mut result = 0.0;
-
-    for (k_y, k_row) in kernel.m.iter().enumerate() {
-        for (k_x, k_coef) in k_row.iter().enumerate() {
-            let (x, y) =
-                toroidal_point_translation(point, (k_x, k_y), (matrix.width, matrix.height));
-            result += k_coef * matrix.m[y][x];
-        }
-    }
-
-    result
+            result + k_coef * matrix.get_by_coordinate(&neighbor_coordinates)
+        })
 }
 
 /// Generate a normalized gaussian kernel
@@ -39,15 +39,18 @@ fn convolute_one(point: (usize, usize), matrix: &Matrix<f64>, kernel: &Matrix<f6
 /// processing and computer vision.
 pub fn gaussian_kernel(radius: usize, mean: f64, standard_deviation: f64) -> Matrix<f64> {
     let mut kernel = distance_kernel(radius);
-    kernel.map(|val| {
+
+    // Turn distance kernel into gaussian kernel
+    kernel.iter_mut().for_each(|val| {
         if *val != 0.0 {
-            normal_gauss(*val, mean, standard_deviation)
-        } else {
-            *val
+            *val = normal_gauss(*val, mean, standard_deviation)
         }
     });
-    let sum = kernel.sum();
-    kernel.map(|val| val / sum);
+
+    // Normalize the kernel
+    let sum = kernel.iter().fold(0.0, |sum, val| sum + val);
+    kernel.iter_mut().for_each(|val| *val = *val / sum);
+
     kernel
 }
 
@@ -73,14 +76,20 @@ mod test {
     #[test]
     fn test_distance_kernel() {
         let expected_result = vec![
-            vec![2.0_f64.sqrt(), 1.0, 2.0_f64.sqrt()],
-            vec![1.0, 0.0, 1.0],
-            vec![2.0_f64.sqrt(), 1.0, 2.0_f64.sqrt()],
+            2.0_f64.sqrt(),
+            1.0,
+            2.0_f64.sqrt(),
+            1.0,
+            0.0,
+            1.0,
+            2.0_f64.sqrt(),
+            1.0,
+            2.0_f64.sqrt(),
         ];
 
         assert_eq!(
             distance_kernel(1),
-            Matrix::from_vec(expected_result).unwrap()
+            Matrix::from_vec(expected_result, 3, 3).unwrap()
         );
     }
 }

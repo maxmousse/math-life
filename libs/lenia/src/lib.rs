@@ -1,5 +1,5 @@
 use maths::{
-    convolution::{gaussian_kernel, toroidal_convolute},
+    convolution::{convolute, gaussian_kernel},
     function::normal_gauss,
     matrix::Matrix,
 };
@@ -18,22 +18,33 @@ pub struct Lenia {
 #[wasm_bindgen]
 impl Lenia {
     pub fn evolve(&mut self) {
-        // Convolve the grid with the convolution kernel
-        let convolution_result = toroidal_convolute(&self.state, &self.convolution_kernel);
+        let result: Vec<f64> = self
+            .state
+            .iter()
+            .enumerate()
+            // Map index to coordinates
+            .map(|(index, _)| self.state.index_to_coordinate(index))
+            // Convolution
+            .map(|point| {
+                (
+                    point,
+                    convolute(&point, &self.state, &self.convolution_kernel),
+                )
+            })
+            // Apply growth function
+            .map(|(point, convolution_result)| {
+                self.state.get_by_coordinate(&point)
+                    + (1.0 / self.time_constant) * &(self.growth_function)(&convolution_result)
+            })
+            // clamp
+            .map(|val| val.clamp(0.0, 1.0)) // clamp
+            .collect();
 
-        for y in 0..self.size {
-            for x in 0..self.size {
-                // n+1 = (n + (1 / dt) * growth(convolute(n) ).clamp(0,1)
-                self.state.m[y][x] = (self.state.m[y][x]
-                    + (1.0 / self.time_constant)
-                        * &(self.growth_function)(&convolution_result.m[y][x]))
-                    .clamp(0.0, 1.0);
-            }
-        }
+        self.state = Matrix::from_vec(result, self.size, self.size).unwrap();
     }
 
-    pub fn state(&self) -> &Vec<Vec<f64>> {
-        &self.state.m
+    pub fn state(&self) -> *const f64 {
+        self.state.m.as_ptr()
     }
 }
 

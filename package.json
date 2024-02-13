@@ -15,6 +15,7 @@
     "@angular/platform-browser": "~17.1.0",
     "@angular/platform-browser-dynamic": "~17.1.0",
     "@angular/router": "~17.1.0",
+    "@ml/lenia": "file:dist/wasm/lenia",
     "@ml/life_game": "file:dist/wasm/life_game",
     "@nx/angular": "17.3.0",
     "rxjs": "~7.8.0",
