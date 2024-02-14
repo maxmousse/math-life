@@ -152,11 +152,13 @@ impl Lenia {
 
 #[wasm_bindgen]
 pub fn lenia() -> Lenia {
+    let mut kernel = gaussian_kernel(13, 0.5, 0.15);
+    kernel.m.reverse();
     Lenia::new(
         64,
         10.0,
         |x| gauss(*x, 2.0, 0.15, 0.015) - 1.0,
-        gaussian_kernel(13, 0.5, 0.15),
+        kernel, //gaussian_kernel(13, 0.5, 0.15),
     )
 }
 

@@ -144,4 +144,29 @@ mod test {
         assert!(result.is_ok());
         assert_eq!(result.unwrap().m, data);
     }
+
+    #[test]
+    fn test_index_to_coordinate() {
+        let matrix = Matrix::from_constant(3, 3, 0);
+
+        let result: Vec<Coordinate> = matrix
+            .iter()
+            .enumerate()
+            .map(|(index, _)| matrix.index_to_coordinate(index))
+            .collect();
+
+        let expected_result = vec![
+            Coordinate(0, 0),
+            Coordinate(1, 0),
+            Coordinate(2, 0),
+            Coordinate(0, 1),
+            Coordinate(1, 1),
+            Coordinate(2, 1),
+            Coordinate(0, 2),
+            Coordinate(1, 2),
+            Coordinate(2, 2),
+        ];
+
+        assert_eq!(result, expected_result);
+    }
 }

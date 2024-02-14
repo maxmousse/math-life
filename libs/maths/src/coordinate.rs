@@ -22,11 +22,13 @@ pub fn toroidal_translation(
 ) -> Coordinate {
     let Coordinate(point_x, point_y) = point;
     let Vector(vector_x, vector_y) = vector;
+    let width = *plan_width as isize;
+    let height = *plan_height as isize;
 
-    Coordinate(
-        (*point_x as isize + vector_x).abs() as usize % plan_width,
-        (*point_y as isize + vector_y).abs() as usize % plan_height,
-    )
+    let result_x = ((*point_x as isize + vector_x + width) % width) as usize;
+    let result_y = ((*point_y as isize + vector_y + height) % height) as usize;
+
+    Coordinate(result_x, result_y)
 }
 
 #[cfg(test)]
@@ -59,14 +61,18 @@ mod tests {
             (Coordinate(0, 0), Vector(1, 0), Coordinate(1, 0)),
             (Coordinate(1, 0), Vector(-1, 0), Coordinate(0, 0)),
             // Test x toroidal translation without bounds
-            (Coordinate(0, 0), Vector(11, 0), Coordinate(1, 0)),
-            (Coordinate(1, 0), Vector(-11, 0), Coordinate(0, 0)),
+            (Coordinate(0, 0), Vector(-1, 0), Coordinate(9, 0)),
+            (Coordinate(9, 0), Vector(1, 0), Coordinate(0, 0)),
+            (Coordinate(0, 0), Vector(10, 0), Coordinate(0, 0)),
+            (Coordinate(0, 0), Vector(-10, 0), Coordinate(0, 0)),
             // Test y toroidal translation within bounds
             (Coordinate(0, 0), Vector(0, 1), Coordinate(0, 1)),
             (Coordinate(0, 1), Vector(0, -1), Coordinate(0, 0)),
             // Test y toroidal translation without bounds
-            (Coordinate(0, 0), Vector(0, 11), Coordinate(0, 1)),
-            (Coordinate(0, 1), Vector(0, -11), Coordinate(0, 0)),
+            (Coordinate(0, 0), Vector(0, -1), Coordinate(0, 9)),
+            (Coordinate(0, 9), Vector(0, 1), Coordinate(0, 0)),
+            (Coordinate(0, 0), Vector(0, 10), Coordinate(0, 0)),
+            (Coordinate(0, 0), Vector(0, -10), Coordinate(0, 0)),
         ];
 
         data.iter().for_each(|(point, vector, result)| {
