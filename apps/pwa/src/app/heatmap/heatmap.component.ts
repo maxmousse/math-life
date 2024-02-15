@@ -48,8 +48,6 @@ export class HeatmapComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.canvasContext) {
       if (changes['data']) {
-        console.log('CHANGE');
-        console.log(this.data);
         this.render();
       }
     }
@@ -69,7 +67,6 @@ export class HeatmapComponent implements AfterViewInit, OnChanges {
   }
 
   render() {
-    console.log('RENDER');
     //  this.renderGrid();
     this.renderCells();
   }

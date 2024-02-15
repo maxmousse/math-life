@@ -21,7 +21,6 @@ export class LeniaComponent implements OnInit {
   }
 
   run() {
-    console.log('RUN');
     this.lenia.evolve();
     const pointer = this.lenia.state();
     this.data = Array.from(new Float64Array(memory.buffer, pointer, 64 * 64));

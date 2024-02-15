@@ -3,7 +3,10 @@ use maths::{
     function::gauss,
     matrix::Matrix,
 };
+use utils::set_panic_hook;
 use wasm_bindgen::prelude::*;
+
+mod utils;
 
 #[wasm_bindgen]
 // Define the Lenia struct
@@ -12,6 +15,7 @@ pub struct Lenia {
     time_constant: f64,
     state: Matrix<f64>,
     convolution_kernel: Matrix<f64>,
+    reversed_convolution_kernel: Matrix<f64>,
     growth_function: fn(&f64) -> f64,
 }
 
@@ -28,7 +32,7 @@ impl Lenia {
             .map(|point| {
                 (
                     point,
-                    convolute(&point, &self.state, &self.convolution_kernel),
+                    convolute(&point, &self.state, &self.reversed_convolution_kernel),
                 )
             })
             // Apply growth function
@@ -55,6 +59,7 @@ impl Lenia {
         growth_function: fn(&f64) -> f64,
         convolution_kernel: Matrix<f64>,
     ) -> Self {
+        set_panic_hook();
         let orbium: Vec<Vec<f64>> = vec![
             vec![
                 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.14, 0.1, 0.0, 0.0, 0.03, 0.03, 0.0, 0.0, 0.3,
@@ -138,10 +143,14 @@ impl Lenia {
             ],
         ];
 
+        let mut reversed_convolution_kernel = convolution_kernel.clone();
+        reversed_convolution_kernel.m.reverse();
+
         Self {
             size,
             time_constant,
             convolution_kernel,
+            reversed_convolution_kernel,
             growth_function,
             state: Matrix::from_function(size, size, |x, y| {
                 *orbium.get(y).and_then(|row| row.get(x)).unwrap_or(&0.0)
@@ -161,13 +170,3 @@ pub fn lenia() -> Lenia {
         kernel, //gaussian_kernel(13, 0.5, 0.15),
     )
 }
-
-// #[wasm_bindgen]
-// pub fn life() -> Lenia {
-//     Lenia::new(
-//         64,
-//         1.0.0,
-//         |x| ),
-//         Matrix::from_vec(vec![1.0.0, 1.0.0, 1.0.0, 1.0.0, 0.0.0, 1.0.0, 1.0.0, 1.0.0, 1.0], 3, 3).unwrap(),
-//     )
-// }

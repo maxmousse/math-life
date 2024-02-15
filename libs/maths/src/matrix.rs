@@ -3,7 +3,7 @@ use std::ops::{Add, AddAssign, Sub};
 
 use crate::coordinate::Coordinate;
 /// Simple 2 dimensions matrix struct
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Matrix<T: Copy + Add + Sub<Output = T>> {
     pub width: usize,
     pub height: usize,
@@ -60,14 +60,17 @@ impl<T: Copy + Add + AddAssign + Sub<Output = T>> Matrix<T> {
         })
     }
 
+    /// Get the value of a matrix cell by coordinate
     pub fn get_by_coordinate(&self, coordinate: &Coordinate) -> &T {
         &self.m[self.coordinate_to_index(coordinate)]
     }
 
+    /// Get the value of a matrix cell by index
     pub fn get_by_index(&self, index: usize) -> &T {
         &self.m[index]
     }
 
+    /// Turn an index into the equivalent coordinate for the current matrix
     pub fn index_to_coordinate(&self, index: usize) -> Coordinate {
         let y = index / self.width;
         let x = index % self.width;
@@ -75,6 +78,7 @@ impl<T: Copy + Add + AddAssign + Sub<Output = T>> Matrix<T> {
         Coordinate(x, y)
     }
 
+    /// Turn a coordinate into the equivalent index for the current matrix
     pub fn coordinate_to_index(&self, Coordinate(x, y): &Coordinate) -> usize {
         y * self.width + x
     }

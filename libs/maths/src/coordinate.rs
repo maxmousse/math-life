@@ -1,9 +1,14 @@
+/// Represents coordinates of a point in a
+/// plan. Coordinates can not be negative
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Coordinate(pub usize, pub usize);
 
+/// Represents a 2 dimension vector. Its component can be negative
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Vector(pub isize, pub isize);
 
+/// Determine the vector to go from a source point to
+/// a destination point
 pub fn vector(source: &Coordinate, destination: &Coordinate) -> Vector {
     let Coordinate(source_x, source_y) = source;
     let Coordinate(destination_x, destination_y) = destination;
@@ -14,6 +19,8 @@ pub fn vector(source: &Coordinate, destination: &Coordinate) -> Vector {
     )
 }
 
+/// Apply a translation of a point by a vector
+/// in a toroidal (periodic) plan
 pub fn toroidal_translation(
     point: &Coordinate,
     vector: &Vector,
