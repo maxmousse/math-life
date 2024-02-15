@@ -213,7 +213,7 @@ export const lifeGamePatterns = [
     description: '',
     pattern: `
       !Name: Die hard
-      !A methuselah that vanishes at generation 130.0, which is conjectured to be maximal for patterns of 7 or fewer cells.
+      !A methuselah that vanishes at generation 130, which is conjectured to be maximal for patterns of 7 or fewer cells.
       !https://www.conwaylife.com/wiki/index.php?title=Die_hard
       ......O
       OO
