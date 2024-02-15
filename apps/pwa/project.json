@@ -5,7 +5,7 @@
   "prefix": "ml",
   "sourceRoot": "apps/pwa/src",
   "tags": [],
-  "implicitDependencies": ["life_game"],
+  "implicitDependencies": ["life_game", "lenia"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
