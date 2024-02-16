@@ -3,7 +3,8 @@ import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
+
 @Component({
   standalone: true,
   imports: [
@@ -11,10 +12,16 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatGridListModule,
+    MatMenuModule,
   ],
   selector: 'ml-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+  sideNavOpened = true;
+
+  toggleSideNav() {
+    this.sideNavOpened = !this.sideNavOpened;
+  }
+}

@@ -20,7 +20,7 @@ const ALIVE_COLOR = '#000000';
   selector: 'ml-life-game-engine',
   standalone: true,
   templateUrl: './life-game-engine.component.html',
-  styleUrl: './life-game-engine.component.css',
+  styleUrl: './life-game-engine.component.scss',
   imports: [CommonModule, LifeGameControlFormComponent],
 })
 export class LifeGameEngineComponent implements AfterViewInit {

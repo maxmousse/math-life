@@ -1,14 +1,26 @@
 import { Route } from '@angular/router';
-import { LifeGamePageComponent } from './life-game/life-game-page/life-game-page.component';
-import { LeniaComponent } from './lenia/lenia.component';
+import { HomeComponent } from './home/home.component';
 
 export const appRoutes: Route[] = [
   {
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
     path: 'lenia',
-    component: LeniaComponent,
+    loadComponent: () =>
+      import('./lenia/lenia.component').then((mod) => mod.LeniaComponent),
+  },
+  {
+    path: 'conway-game-of-life',
+    loadComponent: () =>
+      import('./life-game/life-game-page/life-game-page.component').then(
+        (mod) => mod.LifeGamePageComponent
+      ),
   },
   {
     path: '**',
-    component: LifeGamePageComponent,
+    pathMatch: 'full',
+    redirectTo: 'home',
   },
 ];
