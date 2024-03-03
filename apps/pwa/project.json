@@ -17,9 +17,10 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/pwa/tsconfig.app.json",
         "assets": ["apps/pwa/src/favicon.ico", "apps/pwa/src/assets"],
+        "inlineStyleLanguage": "scss",
         "styles": [
-          "@angular/material/prebuilt-themes/indigo-pink.css",
-          "apps/pwa/src/styles.css"
+          "@angular/material/prebuilt-themes/pink-bluegrey.css",
+          "apps/pwa/src/styles.scss"
         ],
         "scripts": []
       },

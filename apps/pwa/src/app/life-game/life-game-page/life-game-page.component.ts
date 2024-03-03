@@ -4,13 +4,19 @@ import { LifeGameEngineComponent } from '../life-game-engine/life-game-engine.co
 import { LifeGameConfigFormComponent } from '../life-game-config-form/life-game-config-form.component';
 import { Subject, from, merge, of, switchMap, tap } from 'rxjs';
 import { LifeGameConfig } from '../life-game.types';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'ml-life-game-page',
   standalone: true,
-  imports: [CommonModule, LifeGameEngineComponent, LifeGameConfigFormComponent],
+  imports: [
+    CommonModule,
+    LifeGameEngineComponent,
+    LifeGameConfigFormComponent,
+    MatTabsModule,
+  ],
   templateUrl: './life-game-page.component.html',
-  styleUrl: './life-game-page.component.css',
+  styleUrl: './life-game-page.component.scss',
 })
 export class LifeGamePageComponent {
   gameConfigUpdateSubject = new Subject<LifeGameConfig>();

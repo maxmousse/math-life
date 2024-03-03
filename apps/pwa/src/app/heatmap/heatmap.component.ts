@@ -17,7 +17,7 @@ const GRID_COLOR = '#CCCCCC';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './heatmap.component.html',
-  styleUrl: './heatmap.component.css',
+  styleUrl: './heatmap.component.scss',
 })
 export class HeatmapComponent implements AfterViewInit, OnChanges {
   @Input()

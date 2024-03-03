@@ -1,4 +1,42 @@
-<p>lenia works!</p>
-<button (click)="run()">Next</button>
+<div class="page-container">
+  <h2>Lenia</h2>
+  <mat-tab-group>
+    <mat-tab label="How it works">
+      <div class="textual-content">
+        <p>
+          Lenia is a continuous cellular automaton that introduces a unique
+          perspective on evolving patterns. Unlike traditional cellular
+          automata, Lenia operates in a continuous space, allowing for a smooth
+          and wave-like evolution of states. This fascinating automaton was
+          developed by Bert Wang-Chak Chan.
+        </p>
 
-<ml-heatmap [height]="64" [width]="64" [data]="data"></ml-heatmap>
+        <p>
+          In Lenia, each cell can exist in a spectrum of states, creating a more
+          fluid and dynamic landscape. The evolution of the system is governed
+          by differential equations that dictate how the states change over
+          time. This continuous nature gives rise to mesmerizing, organic
+          patterns reminiscent of living organisms.
+        </p>
+
+        <p>
+          Lenia is known for its ability to simulate natural processes and
+          produce visually captivating results. Its exploration goes beyond the
+          discrete steps of traditional cellular automata, offering a continuous
+          and expressive canvas for understanding complex dynamics in a
+          computational environment.
+        </p>
+
+        <p>
+          Join us as we explore Lenia and uncover the rich possibilities and
+          beauty that arise from this unique continuous cellular automaton.
+        </p>
+      </div>
+    </mat-tab>
+    <mat-tab label="Simulation">
+      <button (click)="run()">Next</button>
+
+      <ml-heatmap [height]="64" [width]="64" [data]="data"></ml-heatmap>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -23,7 +23,7 @@ import { MatIcon } from '@angular/material/icon';
     MatIcon,
   ],
   templateUrl: './life-game-control-form.component.html',
-  styleUrl: './life-game-control-form.component.css',
+  styleUrl: './life-game-control-form.component.scss',
 })
 export class LifeGameControlFormComponent {
   @Input()

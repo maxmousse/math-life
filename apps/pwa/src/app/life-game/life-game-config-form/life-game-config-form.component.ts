@@ -20,7 +20,7 @@ import { lifeGamePatterns } from '../life-game-patterns';
     MatSelectModule,
   ],
   templateUrl: './life-game-config-form.component.html',
-  styleUrl: './life-game-config-form.component.css',
+  styleUrl: './life-game-config-form.component.scss',
 })
 export class LifeGameConfigFormComponent {
   @Input()
