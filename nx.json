@@ -74,6 +74,6 @@
       "style": "scss"
     }
   },
-  "neverConnectToCloud": true,
+  "nxCloudAccessToken": "MWRhYTY1YWUtYThhOS00MThiLTkxZjUtODRkNWE0Nzk1ZGRkfHJlYWQ=",
   "plugins": ["@monodon/rust"]
 }
