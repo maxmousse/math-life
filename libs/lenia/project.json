@@ -9,7 +9,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx wasm-pack build libs/lenia --out-dir ../../dist/wasm/lenia --target bundler --dev --scope ml",
+          "npx wasm-pack build libs/lenia --out-dir ../../dist/wasm/lenia --target bundler --release --scope ml",
           "npm i dist/wasm/lenia"
         ],
         "parallel": false,

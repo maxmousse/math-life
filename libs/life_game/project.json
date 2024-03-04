@@ -9,7 +9,7 @@
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "npx wasm-pack build libs/life_game --out-dir ../../dist/wasm/life_game --target bundler --dev --scope ml",
+          "npx wasm-pack build libs/life_game --out-dir ../../dist/wasm/life_game --target bundler --release --scope ml",
           "npm i dist/wasm/life_game"
         ],
         "parallel": false,
