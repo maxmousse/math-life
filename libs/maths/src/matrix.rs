@@ -94,6 +94,11 @@ impl<T: Copy + Add + AddAssign + Sub<Output = T>> Matrix<T> {
     pub fn iter_mut<'a>(&'a mut self) -> std::slice::IterMut<'a, T> {
         self.m.iter_mut()
     }
+
+    pub fn set(&mut self, coordinates: &Coordinate, value: T) {
+      let index = self.coordinate_to_index(coordinates);
+      self.m[index] = value;
+    }
 }
 
 #[cfg(test)]
