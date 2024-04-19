@@ -5,11 +5,11 @@ import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { LifeGamePlayMode } from '../life-game.types';
 import { MatIcon } from '@angular/material/icon';
+import { SimulationPlayMode } from '../simulation.types';
 
 @Component({
-  selector: 'ml-life-game-control-form',
+  selector: 'ml-simulation-control-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -22,19 +22,19 @@ import { MatIcon } from '@angular/material/icon';
     MatLabel,
     MatIcon,
   ],
-  templateUrl: './life-game-control-form.component.html',
-  styleUrl: './life-game-control-form.component.scss',
+  templateUrl: './simulation-control-form.component.html',
+  styleUrl: './simulation-control-form.component.scss',
 })
-export class LifeGameControlFormComponent {
+export class SimulationControlFormComponent {
   @Input()
-  defaultPlayMode: LifeGamePlayMode = 'pause';
+  defaultPlayMode: SimulationPlayMode = 'pause';
 
   @Output()
-  playModeChange = new EventEmitter<LifeGamePlayMode>();
+  playModeChange = new EventEmitter<SimulationPlayMode>();
   @Output()
   next = new EventEmitter<void>();
 
-  playModeControl = new FormControl<LifeGamePlayMode>(this.defaultPlayMode, {
+  playModeControl = new FormControl<SimulationPlayMode>(this.defaultPlayMode, {
     updateOn: 'change',
   });
 }
