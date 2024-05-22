@@ -1,10 +1,10 @@
 <div>
   <div>
-    <ml-life-game-control-form
+    <ml-simulation-control-form
       defaultPlayMode="pause"
       (playModeChange)="updatePlayMode($event)"
       (next)="next()"
-    ></ml-life-game-control-form>
+    ></ml-simulation-control-form>
   </div>
   <div>FPS: {{ fps || 0 }}</div>
   <div>
