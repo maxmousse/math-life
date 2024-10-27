@@ -75,6 +75,10 @@ impl Lenia {
     pub fn convolution_kernel(&self) -> *const f64 {
         self.convolution_kernel.m.as_ptr()
     }
+
+    pub fn size(&self) -> usize {
+        self.size
+    }
 }
 
 impl Lenia {

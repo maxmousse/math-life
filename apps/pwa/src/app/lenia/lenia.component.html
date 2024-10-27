@@ -34,9 +34,17 @@
       </div>
     </mat-tab>
     <mat-tab label="Simulation">
-      <button (click)="run()">Next</button>
-
-      <ml-heatmap [height]="64" [width]="64" [data]="data"></ml-heatmap>
+      <ml-simulation-control-form
+        (next)="next()"
+        (playModeChange)="updatePlayMode($event)"
+      ></ml-simulation-control-form>
+      <ml-heatmap [height]="64" [width]="64" [data]="state"></ml-heatmap>
+      <ml-heatmap
+        [height]="64"
+        [width]="64"
+        [data]="convolutedState"
+      ></ml-heatmap>
+      <ml-heatmap [height]="26" [width]="26" [data]="kernel"></ml-heatmap>
     </mat-tab>
   </mat-tab-group>
 </div>

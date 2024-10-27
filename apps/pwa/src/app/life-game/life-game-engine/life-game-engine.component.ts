@@ -8,8 +8,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { Cell, Universe } from '@ml/life_game';
 import { memory } from '@ml/life_game/life_game_bg.wasm';
-import { LifeGameControlFormComponent } from '../life-game-control-form/life-game-control-form.component';
-import { LifeGamePlayMode } from '../life-game.types';
+import { SimulationControlFormComponent } from '../../simulation-control-form/simulation-control-form.component';
+import { SimulationPlayMode } from '../../simulation.types';
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = '#CCCCCC';
@@ -21,7 +21,7 @@ const ALIVE_COLOR = '#000000';
   standalone: true,
   templateUrl: './life-game-engine.component.html',
   styleUrl: './life-game-engine.component.scss',
-  imports: [CommonModule, LifeGameControlFormComponent],
+  imports: [CommonModule, SimulationControlFormComponent],
 })
 export class LifeGameEngineComponent implements AfterViewInit {
   @Input()
@@ -95,7 +95,7 @@ export class LifeGameEngineComponent implements AfterViewInit {
    *
    * @param playMode - the play mode selected by the user
    */
-  updatePlayMode(playMode: LifeGamePlayMode) {
+  updatePlayMode(playMode: SimulationPlayMode) {
     switch (playMode) {
       case 'play':
         this.play();

@@ -16,7 +16,7 @@ The installation steps presume that the next software are installed on your mach
 After cloning the repository and moving at the root of the folder, you can:
 
 - Install dependencies with `npm i`.
-- Build the project with `npx nx build life_game` (nx will take care of the build dependency graph!).
+- Build the wasm projects with `npx nx run-many --target build --projects life_game,lenia` (nx will take care of the build dependency graph!).
 - Run the angular app with `npx nx serve pwa`.
 - Go to `http://localhost:4200`
 
